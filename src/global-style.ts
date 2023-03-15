@@ -1,15 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-	@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
-
   * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-    vertical-align: top;
-    box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		border: none;
+		outline: none;
+		vertical-align: top;
+		box-sizing: border-box;
 	}
 
 	html {
@@ -24,7 +22,8 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     position: relative;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: 'Poppins';
+    font-weight: 400;
     color: #222;
     overflow: hidden;
 	}
@@ -44,6 +43,6 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	img {
-    border: none;
+        border: none;
 	}
 `;
