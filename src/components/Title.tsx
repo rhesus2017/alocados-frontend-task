@@ -13,6 +13,7 @@ const Title = (props: Props) => {
 export default Title;
 
 const TitleStyle = styled.div`
+  font-family: "Pretendard";
   font-weight: 700;
   font-size: 22px;
   color: rgba(42, 50, 73, 1);
