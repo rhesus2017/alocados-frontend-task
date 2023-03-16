@@ -6,6 +6,7 @@ export interface CoinWalletsType {
 }
 
 export interface CoinWalletType {
+  key: string;
   code: string;
   text: string;
   quantity: number;
