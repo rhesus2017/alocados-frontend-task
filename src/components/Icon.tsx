@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import { getImg } from "../utils/utils";
+import { assetImgs } from "../assets/assets";
 
 interface Props {
   width: number;
   height: number;
-  img: string;
+  iconKey: string;
 }
 
 const Icon = (props: Props) => {
-  const { width, height, img } = props;
+  const { width, height, iconKey } = props;
 
   return (
     <IconStyled width={width} height={height}>
-      <img src={getImg(img)} alt={img} />
+      <img src={assetImgs[iconKey]} alt={iconKey} />
     </IconStyled>
   );
 };
@@ -20,8 +20,8 @@ const Icon = (props: Props) => {
 export default Icon;
 
 const IconStyled = styled.div<{ width: number; height: number }>`
-  width: ${(props) => props.width + "px"};
-  height: ${(props) => props.height + "px"};
+  width: ${(props) => `${props.width}px`};
+  height: ${(props) => `${props.height}px`};
   display: flex;
   justify-content: center;
   align-items: center;

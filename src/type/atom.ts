@@ -5,9 +5,15 @@ export interface CoinWalletsType {
   bnb: CoinWalletType;
 }
 
+export interface SelectedCoinsType {
+  [key: string]: CoinWalletType;
+  from: CoinWalletType;
+  to: CoinWalletType;
+}
+
 export interface CoinWalletType {
   key: string;
   code: string;
-  text: string;
-  quantity: number;
+  name: string;
+  quantity: string;
 }

@@ -1,26 +1,26 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { coinWallet } from "../../../recoil/atom";
+import { coinWallets } from "../../../recoil/atoms";
 import CoinWallet from "./CoinWallet";
 
-const Summary = () => {
-  const coin = useRecoilValue(coinWallet);
+const Wallet = () => {
+  const getCoinWallets = useRecoilValue(coinWallets);
 
   return (
-    <SummaryStyled>
+    <WalletStyled>
       <p>요약</p>
       <div className="coinWrap">
-        {Object.keys(coin).map((key) => (
-          <CoinWallet key={key} coin={coin[key]} />
+        {Object.keys(getCoinWallets).map((key) => (
+          <CoinWallet key={key} coinWallet={getCoinWallets[key]} />
         ))}
       </div>
-    </SummaryStyled>
+    </WalletStyled>
   );
 };
 
-export default Summary;
+export default Wallet;
 
-const SummaryStyled = styled.div`
+const WalletStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;

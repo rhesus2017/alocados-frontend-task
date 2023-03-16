@@ -3,15 +3,16 @@ import styled, { css } from "styled-components";
 interface Props {
   type: "primary" | "text";
   active?: boolean;
-  text: string;
+  label: string;
   onClick: () => void;
 }
 
 const Button = (props: Props) => {
-  const { type, active = false, text, onClick } = props;
+  const { type, active = false, label, onClick } = props;
+
   return (
-    <ButtonStyled ButtonType={type} active={active} onClick={onClick}>
-      {text}
+    <ButtonStyled buttonType={type} active={active} onClick={onClick}>
+      {label}
     </ButtonStyled>
   );
 };
@@ -19,7 +20,7 @@ const Button = (props: Props) => {
 export default Button;
 
 const ButtonStyled = styled.button<{
-  ButtonType: "primary" | "text";
+  buttonType: "primary" | "text";
   active: boolean;
 }>`
   height: 56px;
@@ -33,12 +34,11 @@ const ButtonStyled = styled.button<{
   cursor: pointer;
 
   ${(props) =>
-    props.ButtonType === "primary"
+    props.buttonType === "primary"
       ? css`
           width: 100%;
           color: #fff;
           background: rgba(93, 40, 242, 1);
-          margin-top: 47px;
         `
       : css`
           width: 90px;

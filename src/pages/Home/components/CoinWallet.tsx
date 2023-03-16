@@ -1,27 +1,25 @@
 import styled from "styled-components";
-import { CoinWalletType } from "../../../interface/atom";
+import { CoinWalletType } from "../../../type/atom";
 import Icon from "../../../components/Icon";
+import { numberFormat } from "../../../utils/utils";
 
 interface Props {
-  coin: CoinWalletType;
+  coinWallet: CoinWalletType;
 }
 
 const CoinWallet = (props: Props) => {
-  const { coin } = props;
+  const { coinWallet } = props;
 
   return (
     <CoinWalletStyled>
       <div className="top">
-        <div className="border">
-          <Icon width={36} height={36} img={coin.key} />
+        <div className="iconWrap">
+          <Icon width={36} height={36} iconKey={coinWallet.key} />
         </div>
-        <span className="text">{coin.text}</span>
+        <span className="name">{coinWallet.name}</span>
       </div>
       <div className="bottom">
-        {coin.quantity.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-        })}{" "}
-        {coin.code}
+        {numberFormat(coinWallet.quantity)} {coinWallet.code}
       </div>
     </CoinWalletStyled>
   );
@@ -38,14 +36,14 @@ const CoinWalletStyled = styled.div`
     display: flex;
     gap: 4px;
 
-    > .border {
+    > .iconWrap {
       width: 36px;
       height: 36px;
       border-radius: 50%;
       background: rgba(42, 50, 73, 0.05);
     }
 
-    .text {
+    .name {
       font-family: "Poppins";
       font-weight: 400;
       font-size: 18px;

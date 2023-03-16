@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HOME_URL, HISTORY_URL } from "../constants/URLConstants";
 import Button from "./Button";
-
 import Icon from "./Icon";
 
 const Header = () => {
@@ -11,18 +10,18 @@ const Header = () => {
 
   return (
     <HeaderStyled>
-      <Icon width={168} height={40} img="alocados" />
+      <Icon width={168} height={40} iconKey="alocados" />
       <div className="buttonWrap">
         <Button
           type="text"
           active={location.pathname === HOME_URL}
-          text="환전하기"
+          label="환전하기"
           onClick={() => navigate(HOME_URL)}
         />
         <Button
           type="text"
           active={location.pathname === HISTORY_URL}
-          text="거래내역"
+          label="거래내역"
           onClick={() => navigate(HISTORY_URL)}
         />
       </div>
@@ -38,7 +37,7 @@ const HeaderStyled = styled.header`
   align-items: center;
   padding: 32px;
 
-  .buttonWrap {
+  > .buttonWrap {
     display: flex;
     gap: 24px;
   }

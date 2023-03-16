@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../../components/Header";
 import Title from "../../components/Title";
-import Summary from "./components/Summary";
+import Wallet from "./components/Wallet";
 import Swap from "./components/Swap";
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
       <main>
         <Title title="환전하기" />
         <div className="content">
-          <Summary />
+          <Wallet />
           <Swap />
         </div>
       </main>
