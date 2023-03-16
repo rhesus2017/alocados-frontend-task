@@ -11,7 +11,7 @@ export const coinWallet = atom<CoinWalletsType>({
     },
     ethereum: {
       code: "ETH",
-      text: "Solana",
+      text: "Ethereum",
       quantity: 2000,
     },
     bnb: {

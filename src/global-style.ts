@@ -25,7 +25,6 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins';
     font-weight: 400;
     color: #222;
-    overflow: hidden;
 	}
 
 	#root {

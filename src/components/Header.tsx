@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HOME_URL, HISTORY_URL } from "../constants/URLConstants";
 import Button from "./Button";
-import alocados from "./../assets/svg/alocados.svg";
+
+import Icon from "./Icon";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -10,9 +11,7 @@ const Header = () => {
 
   return (
     <HeaderStyled>
-      <div className="img">
-        <img src={alocados} alt="alocados" />
-      </div>
+      <Icon width={168} height={40} img="alocados" />
       <div className="buttonWrap">
         <Button
           type="text"
@@ -38,14 +37,6 @@ const HeaderStyled = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 32px;
-
-  > .img {
-    width: 168px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   .buttonWrap {
     display: flex;
