@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { EXCHANGE_URL, HISTORY_URL } from "../constants/URLConstants";
+import { HOME_URL, HISTORY_URL } from "../constants/URLConstants";
 import Button from "./Button";
-import alocadosLogo from "./../assets/svg/alocados_logo.svg";
+import alocados from "./../assets/svg/alocados.svg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -10,13 +10,15 @@ const Header = () => {
 
   return (
     <HeaderStyled>
-      <img src={alocadosLogo} alt="alocados logo" />
+      <div className="img">
+        <img src={alocados} alt="alocados" />
+      </div>
       <div className="buttonWrap">
         <Button
           type="text"
-          active={location.pathname === EXCHANGE_URL}
+          active={location.pathname === HOME_URL}
           text="환전하기"
-          onClick={() => navigate(EXCHANGE_URL)}
+          onClick={() => navigate(HOME_URL)}
         />
         <Button
           type="text"
@@ -36,6 +38,14 @@ const HeaderStyled = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 32px;
+
+  > .img {
+    width: 168px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .buttonWrap {
     display: flex;
