@@ -22,17 +22,29 @@ const ButtonStyled = styled.button<{
   ButtonType: "primary" | "text";
   active: boolean;
 }>`
-  width: 90px;
   height: 56px;
   border-radius: 12px;
-  color: #404e71;
-  background: none;
+  font-family: "Pretendard";
   font-weight: 600;
   font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  ${(props) =>
+    props.ButtonType === "primary"
+      ? css`
+          width: 100%;
+          color: #fff;
+          background: rgba(93, 40, 242, 1);
+          margin-top: 47px;
+        `
+      : css`
+          width: 90px;
+          color: #404e71;
+          background: none;
+        `}
 
   ${(props) =>
     props.active &&
