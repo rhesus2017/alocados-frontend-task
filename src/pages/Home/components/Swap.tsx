@@ -2,10 +2,31 @@ import styled from "styled-components";
 import CoinSet from "./CoinSet";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
+import { useRecoilState } from "recoil";
+import { coinWallets, selectedCoin } from "../../../recoil/atoms";
+import Big from "big.js";
 
 const Swap = () => {
+  const [getCoinWallets, setCoinWallets] = useRecoilState(coinWallets);
+  const [getSelectedCoin, setSelectedCoin] = useRecoilState(selectedCoin);
+
   const handleSwapClick = () => {
-    alert("환전!");
+    const fromCoin = getSelectedCoin.from;
+    const toCoin = getSelectedCoin.to;
+
+    setCoinWallets((state) => ({
+      ...state,
+      [fromCoin.key]: {
+        ...state[fromCoin.key],
+        quantity: Big(state[fromCoin.key].quantity)
+          .minus(fromCoin.input)
+          .toString(),
+      },
+      [toCoin.key]: {
+        ...state[toCoin.key],
+        quantity: Big(state[toCoin.key].quantity).plus(toCoin.input).toString(),
+      },
+    }));
   };
 
   return (
@@ -16,7 +37,12 @@ const Swap = () => {
       </div>
       <CoinSet type="to" />
       <div className="buttonWrap">
-        <Button type="primary" label="환전" onClick={handleSwapClick} />
+        <Button
+          type="primary"
+          label="환전"
+          onClick={handleSwapClick}
+          disabled={!getSelectedCoin.from.key || !getSelectedCoin.to.key}
+        />
       </div>
     </SwapStyled>
   );

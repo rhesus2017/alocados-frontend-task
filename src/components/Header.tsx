@@ -14,14 +14,14 @@ const Header = () => {
       <div className="buttonWrap">
         <Button
           type="text"
-          active={location.pathname === HOME_URL}
           label="환전하기"
+          active={location.pathname === HOME_URL}
           onClick={() => navigate(HOME_URL)}
         />
         <Button
           type="text"
-          active={location.pathname === HISTORY_URL}
           label="거래내역"
+          active={location.pathname === HISTORY_URL}
           onClick={() => navigate(HISTORY_URL)}
         />
       </div>

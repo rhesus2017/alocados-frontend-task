@@ -2,16 +2,22 @@ import styled, { css } from "styled-components";
 
 interface Props {
   type: "primary" | "text";
-  active?: boolean;
   label: string;
+  active?: boolean;
+  disabled?: boolean;
   onClick: () => void;
 }
 
 const Button = (props: Props) => {
-  const { type, active = false, label, onClick } = props;
+  const { type, label, active = false, disabled = false, onClick } = props;
 
   return (
-    <ButtonStyled buttonType={type} active={active} onClick={onClick}>
+    <ButtonStyled
+      buttonType={type}
+      active={active}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {label}
     </ButtonStyled>
   );
@@ -32,6 +38,12 @@ const ButtonStyled = styled.button<{
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  &:disabled {
+    background: #e0e2e8;
+    color: #a9b0c1;
+    cursor: default;
+  }
 
   ${(props) =>
     props.buttonType === "primary"

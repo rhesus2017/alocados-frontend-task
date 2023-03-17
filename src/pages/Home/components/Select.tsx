@@ -1,45 +1,50 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
 import Icon from "../../../components/Icon";
-import { CoinWalletsType } from "../../../type/atom";
+import { CoinWalletType } from "../../../type/atom";
+import { useRecoilState } from "recoil";
+import { openSelect } from "../../../recoil/atoms";
 
 interface Props {
+  type: string;
   name: string;
   iconKey: string;
-  options: CoinWalletsType;
+  options: CoinWalletType[];
   onSelect: (key: string) => void;
 }
 
 const Select = (props: Props) => {
-  const { name, iconKey, options, onSelect } = props;
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const { type, name, iconKey, options, onSelect } = props;
+  const [getOpenSelect, setOpenSelect] = useRecoilState(openSelect);
 
   const handleSelectedClick = () => {
-    setIsSelectOpen((state) => !state);
+    setOpenSelect((state) => (state === type ? "" : type));
   };
 
   const handleOptionClick = (key: string) => {
     onSelect(key);
-    setIsSelectOpen(false);
+    setOpenSelect("");
   };
 
   return (
-    <SelectStyled isSelectOpen={isSelectOpen}>
+    <SelectStyled getOpenSelect={getOpenSelect} type={type} name={name}>
       <div className="selected" onClick={handleSelectedClick}>
-        <Icon width={24} height={24} iconKey={iconKey} />
-        <span className="name">{name}</span>
+        {name && <Icon width={24} height={24} iconKey={iconKey} />}
+        <span className="name">{name || "Select Coin"}</span>
         <Icon width={24} height={24} iconKey="selectArrow" />
       </div>
       <div className="options">
-        {Object.keys(options).map((key) => (
-          <div
-            className="option"
-            onClick={() => handleOptionClick(options[key].key)}
-          >
-            <Icon width={24} height={24} iconKey={options[key].key} />
-            <span className="name">{options[key].name}</span>
-          </div>
-        ))}
+        {options.map((item) => {
+          return (
+            <div
+              key={item.key}
+              className="option"
+              onClick={() => handleOptionClick(item.key)}
+            >
+              <Icon width={24} height={24} iconKey={item.key} />
+              <span className="name">{item.name}</span>
+            </div>
+          );
+        })}
       </div>
     </SelectStyled>
   );
@@ -47,7 +52,11 @@ const Select = (props: Props) => {
 
 export default Select;
 
-const SelectStyled = styled.div<{ isSelectOpen: boolean }>`
+const SelectStyled = styled.div<{
+  getOpenSelect: string;
+  type: string;
+  name: string;
+}>`
   width: 147px;
   height: 100%;
   background: #fafbfc;
@@ -69,6 +78,15 @@ const SelectStyled = styled.div<{ isSelectOpen: boolean }>`
       line-height: 178%;
       margin-left: 3px;
       flex-grow: 1;
+
+      ${(props) =>
+        !props.name &&
+        css`
+          font-family: "Pretendard";
+          font-weight: 500;
+          color: #aaa;
+          padding-left: 6px;
+        `}
     }
   }
 
@@ -107,7 +125,7 @@ const SelectStyled = styled.div<{ isSelectOpen: boolean }>`
     }
 
     ${(props) =>
-      !props.isSelectOpen &&
+      props.getOpenSelect !== props.type &&
       css`
         display: none;
       `}

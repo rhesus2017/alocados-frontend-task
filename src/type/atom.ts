@@ -7,8 +7,12 @@ export interface CoinWalletsType {
 
 export interface SelectedCoinsType {
   [key: string]: CoinWalletType;
-  from: CoinWalletType;
-  to: CoinWalletType;
+  from: {
+    input: string;
+  } & CoinWalletType;
+  to: {
+    input: string;
+  } & CoinWalletType;
 }
 
 export interface CoinWalletType {

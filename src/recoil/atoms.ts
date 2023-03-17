@@ -30,16 +30,28 @@ export const selectedCoin = atom<SelectedCoinsType>({
   key: "selectedCoin",
   default: {
     from: {
-      key: "ethereum",
-      code: "ETH",
-      name: "Ethereum",
+      key: "",
+      code: "",
+      name: "",
       quantity: "0",
+      input: "0",
     },
     to: {
-      key: "solana",
-      code: "SOL",
-      name: "Solana",
+      key: "",
+      code: "",
+      name: "",
       quantity: "0",
+      input: "0",
     },
   },
+});
+
+export const openSelect = atom({
+  key: "openSelect",
+  default: "",
+});
+
+export const isError = atom({
+  key: "isError",
+  default: false,
 });

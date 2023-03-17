@@ -3,15 +3,16 @@ import styled, { css } from "styled-components";
 interface Props {
   type: string;
   value: string;
+  error: boolean;
   onChange: (value: string) => void;
 }
 
 const Input = (props: Props) => {
-  const { type, value, onChange } = props;
+  const { type, value, error, onChange } = props;
   const isFrom = type === "from";
 
   return (
-    <InputStyled isFrom={isFrom}>
+    <InputStyled isFrom={isFrom} error={error}>
       {isFrom && <p className="label">전환 수량</p>}
       <input
         type="text"
@@ -26,7 +27,7 @@ const Input = (props: Props) => {
 
 export default Input;
 
-const InputStyled = styled.div<{ isFrom: boolean }>`
+const InputStyled = styled.div<{ isFrom: boolean; error: boolean }>`
   flex-grow: 1;
   height: 100%;
   border-radius: 12px;
@@ -57,6 +58,12 @@ const InputStyled = styled.div<{ isFrom: boolean }>`
       ? css`
           padding: 10px 14px;
           background: #fafbfc;
+          border: 1px solid #fafbfc;
+
+          ${props.error &&
+          css`
+            border: 1px solid #f7254b;
+          `}
 
           input {
             height: 24px;
