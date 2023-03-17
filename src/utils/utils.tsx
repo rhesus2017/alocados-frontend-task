@@ -2,9 +2,14 @@ import { SelectedCoinsType } from "../type/atom";
 import Big from "big.js";
 
 export const numberFormat = (value: string) => {
-  return Number(value).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-  });
+  if (value.includes(".")) {
+    let valueArr = value.split(".");
+    value = valueArr[0] + "." + valueArr[1].slice(0, 2);
+  }
+
+  value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  return value;
 };
 
 export const getFromValue = (value: string, coinWalletsQuantity: string) => {
@@ -34,9 +39,7 @@ export const getToValue = (
   const fromCoinKey = getSelectedCoin.from.key;
   const toCoinKey = getSelectedCoin.to.key;
 
-  if (value === "") {
-    return "0";
-  } else if (fromCoinKey === "solana" && toCoinKey === "ethereum") {
+  if (fromCoinKey === "solana" && toCoinKey === "ethereum") {
     value = getDivideResult(value, "100");
   } else if (fromCoinKey === "solana" && toCoinKey === "bnb") {
     value = getDivideResult(value, "2");
@@ -48,6 +51,8 @@ export const getToValue = (
     value = getTimesResult(value, "2");
   } else if (fromCoinKey === "bnb" && toCoinKey === "ethereum") {
     value = getDivideResult(value, "50");
+  } else if (value === "") {
+    return "0";
   }
 
   return value;

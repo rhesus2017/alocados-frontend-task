@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import styled from "styled-components";
 import {
@@ -7,6 +7,7 @@ import {
   coinWalletsState,
   isErrorState,
   openSelectsState,
+  isSelectedAllState,
 } from "../../../recoil/atoms";
 import { getFromValue, getToValue } from "../../../utils/utils";
 import Input from "./Input";
@@ -19,12 +20,16 @@ interface Props {
 const CoinSet = (props: Props) => {
   const { type } = props;
   const [selectedCoins, setSelectedCoins] = useRecoilState(selectedCoinsState);
+  const setIsSelectedAll = useSetRecoilState(isSelectedAllState);
   const [openSelects, setOpenSelects] = useRecoilState(openSelectsState);
-  const isError = useRecoilValue(isErrorState);
+  const [isError, setIsError] = useRecoilState(isErrorState);
   const coinWallets = useRecoilValue(coinWalletsState);
 
   const onChange = (value: string) => {
     if (!selectedCoins.from.key || !selectedCoins.to.key) return;
+    if (value.split(".").length > 2) return;
+
+    setIsError(!value || !Number(value));
 
     setSelectedCoins((state) => ({
       ...state,
@@ -65,6 +70,12 @@ const CoinSet = (props: Props) => {
         input: getToValue(state.from.input, selectedCoins),
       },
     }));
+
+    setIsSelectedAll(
+      Boolean(selectedCoins.from.key) &&
+        Boolean(selectedCoins.to.key) &&
+        selectedCoins.from.key !== selectedCoins.to.key
+    );
   }, [selectedCoins.from.key, selectedCoins.to.key]);
 
   return (
@@ -78,13 +89,7 @@ const CoinSet = (props: Props) => {
       <Select
         selected={selectedCoins[type]}
         isOpen={openSelects === type}
-        options={Object.keys(coinWallets)
-          .map((key) => coinWallets[key])
-          .filter(
-            (item) =>
-              (type === "from" && item.key !== selectedCoins.to.key) ||
-              (type === "to" && item.key !== selectedCoins.from.key)
-          )}
+        options={Object.keys(coinWallets).map((key) => coinWallets[key])}
         onSelect={(key) => onSelect(key)}
         onToggle={onToggle}
       />

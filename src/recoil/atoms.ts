@@ -55,3 +55,13 @@ export const isErrorState = atom({
   key: "isErrorState",
   default: false,
 });
+
+export const isMessageState = atom({
+  key: "isMessageState",
+  default: false,
+});
+
+export const isSelectedAllState = atom({
+  key: "isSelectedAllState",
+  default: false,
+});

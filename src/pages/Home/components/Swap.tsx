@@ -6,6 +6,8 @@ import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   coinWalletsState,
   isErrorState,
+  isMessageState,
+  isSelectedAllState,
   selectedCoinsState,
 } from "../../../recoil/atoms";
 import { getMinusResult, getPlusResult } from "../../../utils/utils";
@@ -13,7 +15,9 @@ import { getMinusResult, getPlusResult } from "../../../utils/utils";
 const Swap = () => {
   const selectedCoins = useRecoilValue(selectedCoinsState);
   const isError = useRecoilValue(isErrorState);
+  const isSelectedAll = useRecoilValue(isSelectedAllState);
   const setCoinWallets = useSetRecoilState(coinWalletsState);
+  const setIsMessage = useSetRecoilState(isMessageState);
   const resetSelectedCoins = useResetRecoilState(selectedCoinsState);
 
   const handleSwapClick = () => {
@@ -36,6 +40,7 @@ const Swap = () => {
     }));
 
     resetSelectedCoins();
+    setIsMessage(true);
   };
 
   return (
@@ -50,7 +55,9 @@ const Swap = () => {
           type="primary"
           label="환전"
           onClick={handleSwapClick}
-          disabled={isError}
+          disabled={
+            isError || !isSelectedAll || selectedCoins.from.input === "0"
+          }
         />
       </div>
     </SwapStyled>
