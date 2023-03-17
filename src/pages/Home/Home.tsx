@@ -15,16 +15,13 @@ const Home = () => {
       <Header />
       <main>
         <Title title="환전하기" />
-        {isMessage && (
-          <div className="message">
-            <Icon width={20} height={20} iconKey="info" />
-            <span>최근 거래 후 갱신되었습니다.</span>
-            <button type="button" onClick={() => setIsMessage(false)}>
-              <Icon width={24} height={24} iconKey="close" />
-            </button>
-          </div>
-        )}
-
+        <div className={`message ${isMessage}`}>
+          <Icon width={20} height={20} iconKey="info" />
+          <span>최근 거래 후 갱신되었습니다.</span>
+          <button type="button" onClick={() => setIsMessage(false)}>
+            <Icon width={24} height={24} iconKey="close" />
+          </button>
+        </div>
         <div className="content">
           <Wallet />
           <Swap />
@@ -40,10 +37,11 @@ const HomeStyled = styled.div`
   main {
     width: 960px;
     margin: 120px auto 0;
+    padding-bottom: 80px;
 
     .message {
       width: 100%;
-      height: 56px;
+      height: 0px;
       font-family: "Pretendard";
       font-weight: 400;
       font-size: 15px;
@@ -54,9 +52,41 @@ const HomeStyled = styled.div`
       display: flex;
       align-items: center;
       padding: 0 16px;
+      opacity: 0;
+      transition: 0.5s;
 
       span {
+        opacity: 0;
         margin-left: 8px;
+        transition: 0.2s;
+      }
+
+      button {
+        opacity: 0;
+        transition: 0.2s;
+      }
+
+      div {
+        opacity: 0;
+        transition: 0.2s;
+      }
+
+      &.true {
+        height: 56px;
+        opacity: 1;
+
+        span {
+          opacity: 1;
+          margin-left: 8px;
+        }
+
+        button {
+          opacity: 1;
+        }
+
+        div {
+          opacity: 1;
+        }
       }
 
       button {

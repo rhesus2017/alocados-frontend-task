@@ -14,6 +14,7 @@ export const numberFormat = (value: string) => {
 
 export const getFromValue = (value: string, coinWalletsQuantity: string) => {
   value = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+  console.log(value);
 
   if (!value.includes(".") && value[0] === "0" && value[1]) {
     value = value.substring(1);
@@ -40,17 +41,17 @@ export const getToValue = (
   const toCoinKey = getSelectedCoin.to.key;
 
   if (fromCoinKey === "solana" && toCoinKey === "ethereum") {
-    value = getDivideResult(value, "100");
+    value = value ? getDivideResult(value, "100") : value;
   } else if (fromCoinKey === "solana" && toCoinKey === "bnb") {
-    value = getDivideResult(value, "2");
+    value = value ? getDivideResult(value, "2") : value;
   } else if (fromCoinKey === "ethereum" && toCoinKey === "solana") {
-    value = getTimesResult(value, "100");
+    value = value ? getTimesResult(value, "100") : value;
   } else if (fromCoinKey === "ethereum" && toCoinKey === "bnb") {
-    value = getTimesResult(value, "50");
+    value = value ? getTimesResult(value, "50") : value;
   } else if (fromCoinKey === "bnb" && toCoinKey === "solana") {
-    value = getTimesResult(value, "2");
+    value = value ? getTimesResult(value, "2") : value;
   } else if (fromCoinKey === "bnb" && toCoinKey === "ethereum") {
-    value = getDivideResult(value, "50");
+    value = value ? getDivideResult(value, "50") : value;
   } else if (value === "") {
     return "0";
   }

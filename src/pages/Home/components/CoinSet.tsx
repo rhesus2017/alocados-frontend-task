@@ -27,7 +27,7 @@ const CoinSet = (props: Props) => {
 
   const onChange = (value: string) => {
     if (!selectedCoins.from.key || !selectedCoins.to.key) return;
-    if (value.split(".").length > 2) return;
+    if (value.split(".").length > 2 || isNaN(Number(value))) return;
 
     setIsError(!value || !Number(value));
 

@@ -21,3 +21,9 @@ export interface CoinWalletType {
   name: string;
   quantity: string;
 }
+
+export interface HistoryType {
+  date: string;
+  from: SelectedCoinType;
+  to: SelectedCoinType;
+}

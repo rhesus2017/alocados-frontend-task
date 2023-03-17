@@ -6,6 +6,8 @@ import swap from "./svg/swap.svg";
 import selectArrow from "./svg/select_arrow.svg";
 import info from "./svg/info.svg";
 import close from "./svg/close.svg";
+import toArrow from "./svg/to_arrow.svg";
+import downArrow from "./svg/down_arrow.svg";
 
 export const assetImgs: { [key: string]: string } = {
   alocados: alocados,
@@ -16,4 +18,6 @@ export const assetImgs: { [key: string]: string } = {
   selectArrow: selectArrow,
   info: info,
   close: close,
+  toArrow: toArrow,
+  downArrow: downArrow,
 };
