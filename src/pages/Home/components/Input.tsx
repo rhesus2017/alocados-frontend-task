@@ -1,23 +1,22 @@
 import styled, { css } from "styled-components";
 
 interface Props {
-  type: string;
   value: string;
+  readOnly: boolean;
   error: boolean;
   onChange: (value: string) => void;
 }
 
 const Input = (props: Props) => {
-  const { type, value, error, onChange } = props;
-  const isFrom = type === "from";
+  const { value, error, readOnly, onChange } = props;
 
   return (
-    <InputStyled isFrom={isFrom} error={error}>
-      {isFrom && <p className="label">전환 수량</p>}
+    <InputStyled readOnly={readOnly} error={error}>
+      {!readOnly && <p className="label">전환 수량</p>}
       <input
         type="text"
         value={value}
-        readOnly={!isFrom}
+        readOnly={readOnly}
         placeholder="전환 수량을 입력해주세요."
         onChange={(event) => onChange(event.target.value)}
       />
@@ -27,7 +26,7 @@ const Input = (props: Props) => {
 
 export default Input;
 
-const InputStyled = styled.div<{ isFrom: boolean; error: boolean }>`
+const InputStyled = styled.div<{ readOnly: boolean; error: boolean }>`
   flex-grow: 1;
   height: 100%;
   border-radius: 12px;
@@ -54,7 +53,7 @@ const InputStyled = styled.div<{ isFrom: boolean; error: boolean }>`
   }
 
   ${(props) =>
-    props.isFrom
+    !props.readOnly
       ? css`
           padding: 10px 14px;
           background: #fafbfc;

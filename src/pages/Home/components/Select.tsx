@@ -1,35 +1,30 @@
 import styled, { css } from "styled-components";
 import Icon from "../../../components/Icon";
-import { CoinWalletType } from "../../../type/atom";
-import { useRecoilState } from "recoil";
-import { openSelect } from "../../../recoil/atoms";
+import { CoinWalletType, SelectedCoinType } from "../../../type/atom";
 
 interface Props {
-  type: string;
-  name: string;
-  iconKey: string;
+  selected: SelectedCoinType;
+  isOpen: boolean;
   options: CoinWalletType[];
   onSelect: (key: string) => void;
+  onToggle: () => void;
 }
 
 const Select = (props: Props) => {
-  const { type, name, iconKey, options, onSelect } = props;
-  const [getOpenSelect, setOpenSelect] = useRecoilState(openSelect);
-
-  const handleSelectedClick = () => {
-    setOpenSelect((state) => (state === type ? "" : type));
-  };
+  const { selected, isOpen, options, onSelect, onToggle } = props;
 
   const handleOptionClick = (key: string) => {
     onSelect(key);
-    setOpenSelect("");
+    onToggle();
   };
 
   return (
-    <SelectStyled getOpenSelect={getOpenSelect} type={type} name={name}>
-      <div className="selected" onClick={handleSelectedClick}>
-        {name && <Icon width={24} height={24} iconKey={iconKey} />}
-        <span className="name">{name || "Select Coin"}</span>
+    <SelectStyled isOpen={isOpen} selected={selected.name}>
+      <div className="selected" onClick={onToggle}>
+        {selected.name && (
+          <Icon width={24} height={24} iconKey={selected.key} />
+        )}
+        <span className="name">{selected.name || "Select Coin"}</span>
         <Icon width={24} height={24} iconKey="selectArrow" />
       </div>
       <div className="options">
@@ -53,9 +48,8 @@ const Select = (props: Props) => {
 export default Select;
 
 const SelectStyled = styled.div<{
-  getOpenSelect: string;
-  type: string;
-  name: string;
+  isOpen: boolean;
+  selected: string;
 }>`
   width: 147px;
   height: 100%;
@@ -80,7 +74,7 @@ const SelectStyled = styled.div<{
       flex-grow: 1;
 
       ${(props) =>
-        !props.name &&
+        !props.selected &&
         css`
           font-family: "Pretendard";
           font-weight: 500;
@@ -125,7 +119,7 @@ const SelectStyled = styled.div<{
     }
 
     ${(props) =>
-      props.getOpenSelect !== props.type &&
+      !props.isOpen &&
       css`
         display: none;
       `}

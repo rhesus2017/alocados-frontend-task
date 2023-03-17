@@ -1,7 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { selectedCoin, coinWallets, isError } from "../../../recoil/atoms";
+import {
+  selectedCoinsState,
+  coinWalletsState,
+  isErrorState,
+  openSelectsState,
+} from "../../../recoil/atoms";
 import { getFromValue, getToValue } from "../../../utils/utils";
 import Input from "./Input";
 import Select from "./Select";
@@ -12,73 +18,75 @@ interface Props {
 
 const CoinSet = (props: Props) => {
   const { type } = props;
-  const [getSelectedCoin, setSelectedCoin] = useRecoilState(selectedCoin);
-  const [getisError, setIsError] = useRecoilState(isError);
-  const getCoinWallets = useRecoilValue(coinWallets);
+  const [selectedCoins, setSelectedCoins] = useRecoilState(selectedCoinsState);
+  const [openSelects, setOpenSelects] = useRecoilState(openSelectsState);
+  const isError = useRecoilValue(isErrorState);
+  const coinWallets = useRecoilValue(coinWalletsState);
 
-  const onSelect = (key: string) => {
-    setSelectedCoin((state) => ({
+  const onChange = (value: string) => {
+    if (!selectedCoins.from.key || !selectedCoins.to.key) return;
+
+    setSelectedCoins((state) => ({
       ...state,
       from: {
         ...state.from,
-        input:
-          type === "from" && state.from.key !== key ? "0" : state.from.input,
+        input: getFromValue(value, coinWallets[state.from.key].quantity),
       },
-      [type]: {
-        ...getCoinWallets[key],
-        input:
-          type === "from" && state.from.key !== key ? "0" : state.from.input,
+      to: {
+        ...state.to,
+        input: getToValue(
+          getFromValue(value, coinWallets[state.from.key].quantity),
+          selectedCoins
+        ),
       },
     }));
   };
 
-  const onChange = (value: string) => {
-    if (!getSelectedCoin.from.key || !getSelectedCoin.to.key) return;
-    if (!value || value === "0") setIsError(true);
-
-    setSelectedCoin((state) => ({
+  const onSelect = (key: string) => {
+    setSelectedCoins((state) => ({
       ...state,
-      from: {
-        ...state.from,
+      [type]: {
+        ...coinWallets[key],
         input:
-          Number(getFromValue(value)) >
-          Number(getCoinWallets[state.from.key].quantity)
-            ? getCoinWallets[state.from.key].quantity
-            : getFromValue(value),
+          type === "from" && state.from.key !== key ? "0" : state[type].input,
       },
     }));
+  };
+
+  const onToggle = () => {
+    setOpenSelects((state) => (state !== type ? type : ""));
   };
 
   useEffect(() => {
-    setSelectedCoin((state) => ({
+    setSelectedCoins((state) => ({
       ...state,
       to: {
         ...state.to,
-        input: getToValue(getSelectedCoin),
+        input: getToValue(state.from.input, selectedCoins),
       },
     }));
-  }, [getSelectedCoin.from, getSelectedCoin.to.key]);
+  }, [selectedCoins.from.key, selectedCoins.to.key]);
 
   return (
     <CoinSetStyled>
       <Input
-        type={type}
-        value={getSelectedCoin[type].input}
-        error={getisError}
+        value={selectedCoins[type].input}
+        readOnly={type !== "from"}
+        error={isError}
         onChange={(value) => onChange(value)}
       />
       <Select
-        type={type}
-        name={getSelectedCoin[type].name}
-        iconKey={getSelectedCoin[type].key}
-        options={Object.keys(getCoinWallets)
-          .map((key) => getCoinWallets[key])
+        selected={selectedCoins[type]}
+        isOpen={openSelects === type}
+        options={Object.keys(coinWallets)
+          .map((key) => coinWallets[key])
           .filter(
             (item) =>
-              (type === "from" && item.key !== getSelectedCoin.to.key) ||
-              (type === "to" && item.key !== getSelectedCoin.from.key)
+              (type === "from" && item.key !== selectedCoins.to.key) ||
+              (type === "to" && item.key !== selectedCoins.from.key)
           )}
         onSelect={(key) => onSelect(key)}
+        onToggle={onToggle}
       />
     </CoinSetStyled>
   );

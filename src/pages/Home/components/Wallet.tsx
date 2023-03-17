@@ -1,10 +1,10 @@
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { coinWallets } from "../../../recoil/atoms";
+import { coinWalletsState } from "../../../recoil/atoms";
 import CoinWallet from "./CoinWallet";
 
 const Wallet = () => {
-  const getCoinWallets = useRecoilValue(coinWallets);
+  const getCoinWallets = useRecoilValue(coinWalletsState);
 
   return (
     <WalletStyled>

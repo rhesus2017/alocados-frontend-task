@@ -2,31 +2,40 @@ import styled from "styled-components";
 import CoinSet from "./CoinSet";
 import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
-import { useRecoilState } from "recoil";
-import { coinWallets, selectedCoin } from "../../../recoil/atoms";
-import Big from "big.js";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import {
+  coinWalletsState,
+  isErrorState,
+  selectedCoinsState,
+} from "../../../recoil/atoms";
+import { getMinusResult, getPlusResult } from "../../../utils/utils";
 
 const Swap = () => {
-  const [getCoinWallets, setCoinWallets] = useRecoilState(coinWallets);
-  const [getSelectedCoin, setSelectedCoin] = useRecoilState(selectedCoin);
+  const selectedCoins = useRecoilValue(selectedCoinsState);
+  const isError = useRecoilValue(isErrorState);
+  const setCoinWallets = useSetRecoilState(coinWalletsState);
+  const resetSelectedCoins = useResetRecoilState(selectedCoinsState);
 
   const handleSwapClick = () => {
-    const fromCoin = getSelectedCoin.from;
-    const toCoin = getSelectedCoin.to;
-
     setCoinWallets((state) => ({
       ...state,
-      [fromCoin.key]: {
-        ...state[fromCoin.key],
-        quantity: Big(state[fromCoin.key].quantity)
-          .minus(fromCoin.input)
-          .toString(),
+      [selectedCoins.from.key]: {
+        ...state[selectedCoins.from.key],
+        quantity: getMinusResult(
+          state[selectedCoins.from.key].quantity,
+          selectedCoins.from.input
+        ),
       },
-      [toCoin.key]: {
-        ...state[toCoin.key],
-        quantity: Big(state[toCoin.key].quantity).plus(toCoin.input).toString(),
+      [selectedCoins.to.key]: {
+        ...state[selectedCoins.to.key],
+        quantity: getPlusResult(
+          state[selectedCoins.to.key].quantity,
+          selectedCoins.to.input
+        ),
       },
     }));
+
+    resetSelectedCoins();
   };
 
   return (
@@ -41,7 +50,7 @@ const Swap = () => {
           type="primary"
           label="환전"
           onClick={handleSwapClick}
-          disabled={!getSelectedCoin.from.key || !getSelectedCoin.to.key}
+          disabled={isError}
         />
       </div>
     </SwapStyled>

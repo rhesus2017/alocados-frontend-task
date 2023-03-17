@@ -2,8 +2,8 @@ import { SelectedCoinsType } from "../type/atom";
 import { atom } from "recoil";
 import { CoinWalletsType } from "../type/atom";
 
-export const coinWallets = atom<CoinWalletsType>({
-  key: "coinWallets",
+export const coinWalletsState = atom<CoinWalletsType>({
+  key: "coinWalletsState",
   default: {
     solana: {
       key: "solana",
@@ -26,8 +26,8 @@ export const coinWallets = atom<CoinWalletsType>({
   },
 });
 
-export const selectedCoin = atom<SelectedCoinsType>({
-  key: "selectedCoin",
+export const selectedCoinsState = atom<SelectedCoinsType>({
+  key: "selectedCoinsState",
   default: {
     from: {
       key: "",
@@ -46,12 +46,12 @@ export const selectedCoin = atom<SelectedCoinsType>({
   },
 });
 
-export const openSelect = atom({
-  key: "openSelect",
+export const openSelectsState = atom({
+  key: "openSelectsState",
   default: "",
 });
 
-export const isError = atom({
-  key: "isError",
+export const isErrorState = atom({
+  key: "isErrorState",
   default: false,
 });

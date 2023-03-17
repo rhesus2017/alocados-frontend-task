@@ -6,13 +6,13 @@ export interface CoinWalletsType {
 }
 
 export interface SelectedCoinsType {
-  [key: string]: CoinWalletType;
-  from: {
-    input: string;
-  } & CoinWalletType;
-  to: {
-    input: string;
-  } & CoinWalletType;
+  [key: string]: SelectedCoinType;
+  from: SelectedCoinType;
+  to: SelectedCoinType;
+}
+
+export interface SelectedCoinType extends CoinWalletType {
+  input: string;
 }
 
 export interface CoinWalletType {
