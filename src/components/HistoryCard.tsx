@@ -1,6 +1,5 @@
-import moment from "moment";
 import styled from "styled-components";
-import { HistoryType } from "../type/atom";
+import { HistoryType } from "../types/atom";
 import { numberFormat } from "../utils/utils";
 import Icon from "./Icon";
 

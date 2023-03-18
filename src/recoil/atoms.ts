@@ -1,6 +1,6 @@
-import { HistoryType, SelectedCoinsType } from "../type/atom";
+import { HistoryType, SelectedCoinsType } from "../types/atom";
 import { atom } from "recoil";
-import { CoinWalletsType } from "../type/atom";
+import { CoinWalletsType } from "../types/atom";
 
 export const coinWalletsState = atom<CoinWalletsType>({
   key: "coinWalletsState",
@@ -46,6 +46,11 @@ export const selectedCoinsState = atom<SelectedCoinsType>({
   },
 });
 
+export const swapHistoryState = atom<HistoryType[]>({
+  key: "swapHistoryState",
+  default: [],
+});
+
 export const openSelectsState = atom({
   key: "openSelectsState",
   default: "",
@@ -64,11 +69,6 @@ export const isMessageState = atom({
 export const isSelectedAllState = atom({
   key: "isSelectedAllState",
   default: false,
-});
-
-export const swapHistoryState = atom<HistoryType[]>({
-  key: "swapHistoryState",
-  default: [],
 });
 
 export const isDescendState = atom({

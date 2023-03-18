@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import Icon from "../../../components/Icon";
-import { CoinWalletType, SelectedCoinType } from "../../../type/atom";
+import { CoinWalletType, SelectedCoinType } from "../../../types/atom";
 
 interface Props {
   selected: SelectedCoinType;

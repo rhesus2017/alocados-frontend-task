@@ -9,9 +9,11 @@ import {
   openSelectsState,
   isSelectedAllState,
 } from "../../../recoil/atoms";
-import { getFromValue, getToValue } from "../../../utils/utils";
 import Input from "./Input";
 import Select from "./Select";
+import useTransformValue from "../../../hooks/useTransformValue";
+import useInput from "../../../hooks/useInput";
+import useSelect from "../../../hooks/useSelect";
 
 interface Props {
   type: "from" | "to";
@@ -20,52 +22,20 @@ interface Props {
 const CoinSet = (props: Props) => {
   const { type } = props;
   const [selectedCoins, setSelectedCoins] = useRecoilState(selectedCoinsState);
-  const setIsSelectedAll = useSetRecoilState(isSelectedAllState);
-  const [openSelects, setOpenSelects] = useRecoilState(openSelectsState);
   const [isError, setIsError] = useRecoilState(isErrorState);
+  const openSelects = useRecoilValue(openSelectsState);
   const coinWallets = useRecoilValue(coinWalletsState);
-
-  const onChange = (value: string) => {
-    if (!selectedCoins.from.key || !selectedCoins.to.key) return;
-    if (value.split(".").length > 2 || isNaN(Number(value))) return;
-
-    setSelectedCoins((state) => ({
-      ...state,
-      from: {
-        ...state.from,
-        input: getFromValue(value, coinWallets[state.from.key].quantity),
-      },
-      to: {
-        ...state.to,
-        input: getToValue(
-          getFromValue(value, coinWallets[state.from.key].quantity),
-          selectedCoins
-        ),
-      },
-    }));
-  };
-
-  const onSelect = (key: string) => {
-    setSelectedCoins((state) => ({
-      ...state,
-      [type]: {
-        ...coinWallets[key],
-        input:
-          type === "from" && state.from.key !== key ? "0" : state[type].input,
-      },
-    }));
-  };
-
-  const onToggle = () => {
-    setOpenSelects((state) => (state !== type ? type : ""));
-  };
+  const setIsSelectedAll = useSetRecoilState(isSelectedAllState);
+  const { getToValue } = useTransformValue();
+  const { onChange } = useInput();
+  const { onSelect, onToggle } = useSelect();
 
   useEffect(() => {
     setSelectedCoins((state) => ({
       ...state,
       to: {
         ...state.to,
-        input: getToValue(state.from.input, selectedCoins),
+        input: getToValue(state.from.input),
       },
     }));
 
@@ -92,8 +62,8 @@ const CoinSet = (props: Props) => {
         selected={selectedCoins[type]}
         isOpen={openSelects === type}
         options={Object.keys(coinWallets).map((key) => coinWallets[key])}
-        onSelect={(key) => onSelect(key)}
-        onToggle={onToggle}
+        onSelect={(key) => onSelect(key, type)}
+        onToggle={() => onToggle(type)}
       />
     </CoinSetStyled>
   );

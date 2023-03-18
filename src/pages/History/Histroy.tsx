@@ -7,8 +7,8 @@ import Title from "../../components/Title";
 import { isDescendState, swapHistoryState } from "../../recoil/atoms";
 
 const Histroy = () => {
-  const swapHistory = useRecoilValue(swapHistoryState);
   const [isDescend, setIsDescend] = useRecoilState(isDescendState);
+  const swapHistory = useRecoilValue(swapHistoryState);
 
   return (
     <HistoryStyled isDescend={isDescend}>
@@ -81,7 +81,7 @@ const HistoryStyled = styled.div<{ isDescend: boolean }>`
       }
     }
 
-    .cardWrap {
+    > .cardWrap {
       overflow: auto;
       height: 40vh;
       min-height: 470px;

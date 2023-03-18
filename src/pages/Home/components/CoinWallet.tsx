@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { CoinWalletType } from "../../../type/atom";
+import { CoinWalletType } from "../../../types/atom";
 import Icon from "../../../components/Icon";
 import { numberFormat } from "../../../utils/utils";
 
