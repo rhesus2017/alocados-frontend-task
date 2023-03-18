@@ -14,7 +14,6 @@ export const numberFormat = (value: string) => {
 
 export const getFromValue = (value: string, coinWalletsQuantity: string) => {
   value = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
-  console.log(value);
 
   if (!value.includes(".") && value[0] === "0" && value[1]) {
     value = value.substring(1);

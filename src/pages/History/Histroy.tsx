@@ -26,7 +26,7 @@ const Histroy = () => {
         </div>
         <div className="cardWrap">
           {swapHistory
-            .map((item) => <HistoryCard item={item} />)
+            .map((item, index) => <HistoryCard key={index} item={item} />)
             .sort(() => (isDescend ? -1 : 1))}
         </div>
       </main>

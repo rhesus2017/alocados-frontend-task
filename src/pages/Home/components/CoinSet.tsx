@@ -29,8 +29,6 @@ const CoinSet = (props: Props) => {
     if (!selectedCoins.from.key || !selectedCoins.to.key) return;
     if (value.split(".").length > 2 || isNaN(Number(value))) return;
 
-    setIsError(!value || !Number(value));
-
     setSelectedCoins((state) => ({
       ...state,
       from: {
@@ -77,6 +75,10 @@ const CoinSet = (props: Props) => {
         selectedCoins.from.key !== selectedCoins.to.key
     );
   }, [selectedCoins.from.key, selectedCoins.to.key]);
+
+  useEffect(() => {
+    setIsError(!selectedCoins.from.input || !Number(selectedCoins.from.input));
+  }, [selectedCoins.from.input]);
 
   return (
     <CoinSetStyled>

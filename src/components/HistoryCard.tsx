@@ -1,3 +1,4 @@
+import moment from "moment";
 import styled from "styled-components";
 import { HistoryType } from "../type/atom";
 import { numberFormat } from "../utils/utils";

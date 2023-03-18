@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { useState } from "react";
 
 interface Props {
   value: string;
@@ -9,15 +10,18 @@ interface Props {
 
 const Input = (props: Props) => {
   const { value, error, readOnly, onChange } = props;
+  const [isFocus, setIsFocus] = useState(false);
 
   return (
-    <InputStyled readOnly={readOnly} error={error}>
+    <InputStyled readOnly={readOnly} error={error} isFocus={isFocus}>
       {!readOnly && <p className="label">전환 수량</p>}
       <input
         type="text"
         value={value}
         readOnly={readOnly}
         placeholder="전환 수량을 입력해주세요."
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
         onChange={(event) => onChange(event.target.value)}
       />
     </InputStyled>
@@ -26,7 +30,11 @@ const Input = (props: Props) => {
 
 export default Input;
 
-const InputStyled = styled.div<{ readOnly: boolean; error: boolean }>`
+const InputStyled = styled.div<{
+  readOnly: boolean;
+  error: boolean;
+  isFocus: boolean;
+}>`
   flex-grow: 1;
   height: 100%;
   border-radius: 12px;
@@ -60,6 +68,7 @@ const InputStyled = styled.div<{ readOnly: boolean; error: boolean }>`
           border: 1px solid #fafbfc;
 
           ${props.error &&
+          props.isFocus &&
           css`
             border: 1px solid #f7254b;
           `}

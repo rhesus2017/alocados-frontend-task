@@ -80,8 +80,8 @@ const Swap = () => {
       <div className="cardWrap">
         {swapHistory
           .filter((_item, index, items) => index === items.length - 1)
-          .map((item) => (
-            <HistoryCard item={item} />
+          .map((item, index) => (
+            <HistoryCard key={index} item={item} />
           ))}
       </div>
     </SwapStyled>
