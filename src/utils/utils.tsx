@@ -6,6 +6,7 @@ export const numberFormat = (value: string) => {
     value = valueArr[0] + "." + valueArr[1].slice(0, 2);
   }
 
+  value = String(Number(value));
   value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
   return value;
